@@ -17,8 +17,10 @@ const opts = nomnom.option('infile', {
   })
   .parse();
 
-mailparser.on('end', mail => {
-  writeFileSync(opts.outfile, mail.html);
+mailparser.on('data', data => {
+  if (data.type === 'text') {
+    writeFileSync(opts.outfile, data.html);
+  }
 });
 
 createReadStream(opts.infile).pipe(mailparser);
