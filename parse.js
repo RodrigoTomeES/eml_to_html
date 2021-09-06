@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-var MailParser = require('mailparser').MailParser;
-var mailparser = new MailParser();
-var fs = require('fs');
+import { MailParser } from 'mailparser';
+import { writeFileSync, createReadStream } from 'fs';
+import nomnom from 'nomnom'
 
-var opts = require("nomnom")
-  .option('infile', {
+const mailparser = new MailParser();
+const opts = nomnom.option('infile', {
     abbr: 'i',
     required: true,
     help: 'Specify input file'
@@ -17,9 +17,8 @@ var opts = require("nomnom")
   })
   .parse();
 
-
-mailparser.on("end", function(mail){
-  fs.writeFileSync(opts.outfile, mail.html);
+mailparser.on('end', mail => {
+  writeFileSync(opts.outfile, mail.html);
 });
 
-fs.createReadStream(opts.infile).pipe(mailparser);
+createReadStream(opts.infile).pipe(mailparser);

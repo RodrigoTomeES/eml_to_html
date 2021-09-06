@@ -1,6 +1,7 @@
 {
   "name": "eml_parser",
   "version": "1.0.0",
+  "type": "module",
   "description": "Parse eml file and output html",
   "main": "parse.js",
   "dependencies": {
